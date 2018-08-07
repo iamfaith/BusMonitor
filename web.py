@@ -70,20 +70,23 @@ def tasks(receiver):
 #                                                                   at)
 
 def bus_12():
-    start_monitor_bus('二中', '12', u'九洲港')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    start_monitor_bus('二中', '12', u'九洲港', receiver='u-99076430-a107-496a-937f-1d2f24d6')
 
 
 def bus_11():
-    start_monitor_bus('湖湾里', '11', u'夏湾')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    start_monitor_bus('湖湾里', '11', u'夏湾', receiver='u-99076430-a107-496a-937f-1d2f24d6')
 
 
 def start_schedule():
-    schedule.every().day.at("15:09").do(bus_12)
-    schedule.every().day.at("15:09").do(bus_11)
+    schedule.every().day.at("07:40").do(bus_12)
+    schedule.every().day.at("07:40").do(bus_11)
     while True:
         schedule.run_pending()
 
 
+t = Process(target=start_schedule)
+t.deamon = True
+t.start()
 # start_schedule()
 
 app.run(host="0.0.0.0", port=conf.port, debug=conf.debug)
