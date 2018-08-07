@@ -9,6 +9,10 @@ class RedisConf(metaclass=Singleton):
         self.pool = redis.ConnectionPool(host=conf.redis_server, port=conf.redis_port, decode_responses=True)
         print('init')
 
+    def exist(self, key):
+        re = redis.StrictRedis(connection_pool=self.pool)
+        return re.exists(key)
+
     def hash_set(self, *args):
         re = redis.StrictRedis(connection_pool=self.pool)
         re.hset(*args)
@@ -22,3 +26,4 @@ if __name__ == '__main__':
     r = RedisConf()
     r.hash_set('test', 'aa', 'bb')
     print(r.hash_getall('test')['isOn'] is False)
+    r = RedisConf()
