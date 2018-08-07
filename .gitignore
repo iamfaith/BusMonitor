@@ -1,3 +1,4 @@
 **.log
 .idea/
 alert_over.py
+__pycache__/
