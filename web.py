@@ -1,14 +1,14 @@
 import json
+from multiprocessing import Process
 
 import schedule
 from flask import Flask
 from flask import request
-from multiprocessing import Process
 
-import util
 import conf
 from BusQry import BusBase
 from bus_monitor import start_monitor_bus
+from common import util
 from redis_config import RedisConf
 
 app = Flask(__name__)

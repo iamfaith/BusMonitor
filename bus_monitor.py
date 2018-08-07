@@ -1,10 +1,6 @@
-import json
-import re
 import threading
 import time
 
-import requests
-from bs4 import BeautifulSoup
 
 from BusQry import BusBase
 from auto_login import MessageSender
