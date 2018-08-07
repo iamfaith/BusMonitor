@@ -42,8 +42,8 @@ class BusBase:
         pos = BusBase.handle_jsonp(c)
         if pos:
             pos = pos['pois']
-            for p in pos:
-                print("{} -- {}".format(p["name"], p["location"]))
+            # for p in pos:
+            #     print("{} -- {}".format(p["name"], p["location"]))
             return pos
 
     @staticmethod
