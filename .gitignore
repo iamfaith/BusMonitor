@@ -1,2 +1,4 @@
 **.log
 conf.py
+.idea/
+alert_over.py
