@@ -86,9 +86,9 @@ def start_schedule():
         schedule.run_pending()
 
 
-t = Process(target=start_schedule)
-t.deamon = True
-t.start()
-# start_schedule()
+# t = Process(target=start_schedule)
+# t.deamon = True
+# t.start()
+start_schedule()
 
-app.run(host="0.0.0.0", port=conf.port, debug=conf.debug)
+#app.run(host="0.0.0.0", port=conf.port, debug=conf.debug)
