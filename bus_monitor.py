@@ -1,25 +1,34 @@
 import threading
 import time
 
-
 from BusQry import BusBase
 from auto_login import MessageSender
 
 
 class BusMonitor(BusBase):
-    def __init__(self, station, line_name, from_station):
+    def __init__(self, station, line_name, from_station, before_num=2):
         self.station = station
         self.content = ""
         self.line_name = '{}路'.format(line_name)
         self.from_station = from_station
         self.title = "{}-{} 来了".format(self.from_station, self.line_name)
+        self.before_num = before_num
+        stations = self.get_station(self.line_name, self.from_station)
+        self.pre = self.pre_station(stations, self.station, self.before_num)
 
     def monitor_bus(self):
         bus = self.get_bus(self.line_name, self.from_station)
+        for b in bus:
+            for i, p in enumerate(self.pre):
+                if b['CurrentStation'] in p['Name']:
+                    left = len(self.pre) - i
+                    self.content = "{}到了{}，还有{}站到达{}".format(b['BusNumber'], b['CurrentStation'], left, self.station)
+                    return True
+
         print(bus)
         gen = (b for b in bus if self.station in b['CurrentStation'])
         for b in gen:
-            self.content = "{} {}->{}".format(self.title, b['BusNumber'], b['CurrentStation'])
+            self.content = "{} {}到达{}，请主人上车么么哒".format(self.title, b['BusNumber'], b['CurrentStation'])
             return True
         return False
 
@@ -38,7 +47,8 @@ def monitor_bus(station, line_name, from_station, interval=1200, receiver="u-271
                 content = monitor.content
                 title = monitor.title
                 sender.send_message(content, title, receiver=receiver)
-                break
+                # sleep
+                time.sleep(30)
             time.sleep(3)
         except:
             pass

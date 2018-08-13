@@ -26,6 +26,11 @@ class BusBase:
                       '=JS&logversion=2.0&sdkversion=1.3&appname=http%3A%2F%2Fwww.zhbuswx.com%2Fbusline%2FBusQuery' \
                       '.html%3Fv%3D2.01%23%2F&csid=FAB7C96B-8BCB-4AF0-BC0A-0B02766E455F&keywords={}'
 
+    __ListBusStation = 'http://www.zhbuswx.com/Handlers/BusQuery.ashx?handlerName=GetStationList&lineId={}' \
+                       '&_=1534145964159 '
+    __BusDirection = 'http://www.zhbuswx.com/Handlers/BusQuery.ashx?handlerName=GetLineListByLineName&key={}&_' \
+                     '=1534146141487 '
+
     @staticmethod
     def handle_jsonp(jsonp):
         m = re.search('\((.*)\)', jsonp)
@@ -81,10 +86,44 @@ class BusBase:
         print(c)
         return json.loads(c)['data']
 
+    @staticmethod
+    def get_station(line_name, from_station):
+        c = requests.get(BusBase.__BusDirection.format(line_name), headers=BusBase.__header).content.decode('utf-8')
+        directions = json.loads(c)['data']
+        bus_info = {}
+        for d in directions:
+            if d['FromStation'] == from_station:
+                bus_info = d
+                break
+        # print(bus_info)
+        c = requests.get(BusBase.__ListBusStation.format(bus_info['Id']), headers=BusBase.__header).content.decode(
+            'utf-8')
+        stations = json.loads(c)['data']
+        # print(stations)
+        return stations
+
+    @staticmethod
+    def pre_station(stations, cur, pre=2):
+        index = -1
+        for i, item in enumerate(stations):
+            if cur in item['Name']:
+                index = i
+                break
+        if index is not -1:
+            stations = stations[index - pre: index]
+        else:
+            stations = []
+        return stations
+
 
 if __name__ == '__main__':
-    origin = BusBase.search_station('柠溪(公交')[0]["location"]
-    print("---")
-    dest = BusBase.search_station('二中1111111')[0]["location"]
-    route = BusBase.get_route(origin, dest)
-    print(route)
+    s = BusBase.get_station('11', '夏湾')
+    s = BusBase.pre_station(s, "柠溪", 4)
+    print(s)
+
+
+# origin = BusBase.search_station('柠溪(公交')[0]["location"]
+# print("---")
+# dest = BusBase.search_station('二中1111111')[0]["location"]
+# route = BusBase.get_route(origin, dest)
+# print(route)
