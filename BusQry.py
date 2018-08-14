@@ -118,9 +118,18 @@ class BusBase:
 
 
 if __name__ == '__main__':
-    s = BusBase.get_station('11', '夏湾')
-    s = BusBase.pre_station(s, "柠溪", 4)
-    print(s)
+    msg = set()
+    msg.add('asdzxc')
+    msg.add('asdzxc')
+    msg.add('123')
+    print(msg)
+    print(msg.__contains__('123'))
+    # s = BusBase.get_station('20', '上冲总站')
+    # s = BusBase.pre_station(s, "柠溪")
+    # print(s)
+    # s = BusBase.get_station('11', '夏湾')
+    # s = BusBase.pre_station(s, "柠溪", 4)
+    # print(s)
 
 
 # origin = BusBase.search_station('柠溪(公交')[0]["location"]

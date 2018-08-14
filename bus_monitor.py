@@ -12,7 +12,7 @@ class BusMonitor(BusBase):
         self.content = ""
         self.line_name = '{}路'.format(line_name)
         self.from_station = from_station
-        self.title = "{}-{} 来了".format(self.from_station, self.line_name)
+        self.title = "Dear:{}-{}来了".format(self.from_station, self.line_name)
         self.before_num = before_num
         stations = self.get_station(self.line_name, self.from_station)
         self.pre = self.pre_station(stations, self.station, self.before_num)
@@ -37,6 +37,7 @@ class BusMonitor(BusBase):
 def monitor_bus(station, line_name, from_station, interval=1200, receiver="u-27130018-e12c-480c-8f10-6671f591"):
     monitor = BusMonitor(station, line_name, from_station)
     start = time.time()
+    msg = set()
     while True:
         try:
             done = time.time()
@@ -46,17 +47,18 @@ def monitor_bus(station, line_name, from_station, interval=1200, receiver="u-271
             if monitor.monitor_bus():
                 sender = MessageSender()
                 content = monitor.content
+                if msg.__contains__(content):
+                    continue
                 title = monitor.title
                 sender.send_message(content, title, receiver=receiver)
-                # sleep
-                time.sleep(30)
-            time.sleep(3)
+                msg.add(content)
+            time.sleep(4)
         except:
-            pass
+            time.sleep(3)
 
 
 def start_monitor_bus(*args, **kwargs):
-    t = threading.Thread(target=monitor_bus, args=args)
+    t = threading.Thread(target=monitor_bus, args=args, kwargs=kwargs)
     t.start()
 
 

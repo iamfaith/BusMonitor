@@ -2,9 +2,12 @@
 import requests
 from bs4 import BeautifulSoup
 import yaml
+from openpyxl.compat.singleton import Singleton
+
 import alert_over as conf
 
-class MessageSender:
+
+class MessageSender(metaclass=Singleton):
     __login_url = 'https://www.alertover.com/auth/login'
     __send_url = "https://www.alertover.com/console/send"
 
