@@ -49,7 +49,7 @@ def monitor_bus(station, line_name, from_station, interval=1200, receiver="u-271
                 sender = MessageSender()
                 content = monitor.content
                 if msg.__contains__(content):
-                    time.sleep(4)
+                    # time.sleep(4)
                     continue
                 title = monitor.title
                 sender.send_message(content, title, receiver=receiver)

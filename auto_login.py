@@ -3,8 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 import yaml
 from openpyxl.compat.singleton import Singleton
-
+from threading import Lock
 import alert_over as conf
+
+lock = Lock()
 
 
 class MessageSender(metaclass=Singleton):
@@ -26,22 +28,23 @@ class MessageSender(metaclass=Singleton):
         response = self.session.post(MessageSender.__login_url, data=conf.data, headers=headers, verify=False)
 
     def send_message(self, msg, title, url=None, receiver="u-27130018-e12c-480c-8f10-6671f591"):
-        if self.msg_queue.__contains__(msg):
-            return
-        data = {
-            "content": msg,
-            "priority": 0,
-            "receiver": receiver,
-            "sound": "default",
-            "source": "Alertover",
-            "title": title,
-            "url": url
-        }
-        response = self.session.post(MessageSender.__send_url, data=data)
-        self.msg_queue.add(msg)
-        content = response.content
-        parsed_html = BeautifulSoup(content.decode('utf-8'), "lxml")
-        print(parsed_html)
+        with lock:
+            if self.msg_queue.__contains__(msg):
+                return
+            data = {
+                "content": msg,
+                "priority": 0,
+                "receiver": receiver,
+                "sound": "default",
+                "source": "Alertover",
+                "title": title,
+                "url": url
+            }
+            response = self.session.post(MessageSender.__send_url, data=data)
+            self.msg_queue.add(msg)
+            content = response.content
+            parsed_html = BeautifulSoup(content.decode('utf-8'), "lxml")
+            print(parsed_html)
 
     @staticmethod
     def dump_config():
