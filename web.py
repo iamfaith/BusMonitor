@@ -71,15 +71,15 @@ def tasks(receiver):
 #                                                                   at)
 
 def bus():
-    # start_monitor_bus('柠溪', '12', u'九洲港')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
-    # start_monitor_bus('柠溪', '56', u'夏湾')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
-    # start_monitor_bus('柠溪', '14', u'长隆')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
-    # start_monitor_bus('柠溪', '20', u'上冲总站')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    start_monitor_bus('柠溪', '12', u'九洲港')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    start_monitor_bus('柠溪', '56', u'夏湾')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    start_monitor_bus('柠溪', '14', u'长隆')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    start_monitor_bus('柠溪', '20', u'上冲总站')  # , receiver='u-99076430-a107-496a-937f-1d2f24d6')
 
-    start_monitor_bus('柠溪', '12', u'九洲港', receiver='u-99076430-a107-496a-937f-1d2f24d6')
-    start_monitor_bus('柠溪', '56', u'夏湾', receiver='u-99076430-a107-496a-937f-1d2f24d6')
-    start_monitor_bus('柠溪', '14', u'长隆', receiver='u-99076430-a107-496a-937f-1d2f24d6')
-    start_monitor_bus('柠溪', '20', u'上冲总站', receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    # start_monitor_bus('柠溪', '12', u'九洲港', receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    # start_monitor_bus('柠溪', '56', u'夏湾', receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    # start_monitor_bus('柠溪', '14', u'长隆', receiver='u-99076430-a107-496a-937f-1d2f24d6')
+    # start_monitor_bus('柠溪', '20', u'上冲总站', receiver='u-99076430-a107-496a-937f-1d2f24d6')
 
 
 def start_schedule():
@@ -91,6 +91,6 @@ def start_schedule():
 # t = Process(target=start_schedule)
 # t.deamon = True
 # t.start()
-start_schedule()
-# bus()
+#start_schedule()
+bus()
 # app.run(host="0.0.0.0", port=conf.port, debug=conf.debug)

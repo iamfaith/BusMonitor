@@ -23,13 +23,14 @@ class BusMonitor(BusBase):
             for i, p in enumerate(self.pre):
                 if b['CurrentStation'] in p['Name']:
                     left = len(self.pre) - i
-                    self.content = "{}到了{}，还有{}站到达{}".format(b['BusNumber'], b['CurrentStation'], left, self.station)
+                    self.content = "{}到了{}，还有{}站到达{}[{}]".format(b['BusNumber'], b['CurrentStation'], left,
+                                                                 self.station, self.line_name)
                     return True
 
         print(bus)
         gen = (b for b in bus if self.station in b['CurrentStation'])
         for b in gen:
-            self.content = "{} {}到达{}，请主人上车么么哒".format(self.title, b['BusNumber'], b['CurrentStation'])
+            self.content = "{}到达{}[{}]".format(b['BusNumber'], b['CurrentStation'], self.line_name)
             return True
         return False
 
