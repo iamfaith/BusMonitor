@@ -22,11 +22,14 @@ class MessageSender(metaclass=Singleton):
             "Content-Type": "application/x-www-form-urlencoded"
         }
         self.session = requests.Session()
+        self.msg_queue = set()
         response = self.session.post(MessageSender.__login_url, data=conf.data, headers=headers, verify=False)
 
-    def send_message(self, content, title, url=None, receiver="u-27130018-e12c-480c-8f10-6671f591"):
+    def send_message(self, msg, title, url=None, receiver="u-27130018-e12c-480c-8f10-6671f591"):
+        if self.msg_queue.__contains__(msg):
+            return
         data = {
-            "content": content,
+            "content": msg,
             "priority": 0,
             "receiver": receiver,
             "sound": "default",
@@ -35,6 +38,7 @@ class MessageSender(metaclass=Singleton):
             "url": url
         }
         response = self.session.post(MessageSender.__send_url, data=data)
+        self.msg_queue.add(msg)
         content = response.content
         parsed_html = BeautifulSoup(content.decode('utf-8'), "lxml")
         print(parsed_html)
